@@ -1,0 +1,329 @@
+<html>
+
+<head>
+    <meta charset="utf-8"> 
+    <style>
+        body {
+            font-family: fantasy;
+            background-color: antiquewhite;
+            font: normal 100% Helvetica, Arial, sans-serif;
+            margin: 3%;
+            text-align: center;
+        }
+
+        .center {
+            margin: 0px auto;
+            text-align: center
+        }
+
+        h1 {
+            color: darkgoldenrod;
+            font-family: sans-serif;
+            font-size: 2rem;
+            height: 2rem;
+            margin: 0.3rem;
+        }
+
+        p {
+            text-align: center;
+            font-size: 1.2rem;
+        }
+
+        #nowTime {
+            color: chocolate;
+            font-size: 2rem;
+            margin: 2rem;
+            height: 2rem;
+        }
+
+        #answer {
+            background-color: rgba(82, 82, 82, 0.523);
+        }
+
+        a {
+            color: darkgoldenrod;
+            font-size: 2rem;
+            height: 2rem;
+            margin: 1rem;
+            text-decoration: none;
+        }
+
+        img {
+            text-align: center;
+            height: 50vw;
+            max-height: 35rem;
+        }
+
+        .footer {
+            text-align: right;
+            font-size: 1.2rem;
+            height: 1.2rem;
+            padding-right: 10%;
+            color: burlywood;
+        }
+    </style>
+    <script type="text/javascript">
+        /* Generated from Java with JSweet 2.2.0-SNAPSHOT - http://www.jsweet.org */
+        var Main = (function () {
+            function Main() {
+            }
+            Main.COLORS_$LI$ = function () {
+                if (Main.COLORS == null)
+                    Main.COLORS = [Main.Color.BLUE, Main.Color.RED, Main.Color.GREEN, Main.Color.YELLOW, Main.Color.PINK, Main.Color.WHITE]; return Main.COLORS;
+            };
+            ;
+            Main.main = function (args) {
+                var list = Main.init();
+                var args = ([]);
+                args.push(document.getElementById("f1").value);
+                args.push(document.getElementById("f2").value);
+                args.push(document.getElementById("f3").value);
+                args.push(document.getElementById("f4").value);
+                args.push(document.getElementById("f5").value);
+                args.push(document.getElementById("f6").value);
+                args.push(document.getElementById("f7").value);
+                args.push(document.getElementById("f8").value);
+                console.info(args);
+                for (var index15261 = 0; index15261 < args.length; index15261++) {
+                    var arg = args[index15261];
+                    {
+                        if (arg.length === 6) {
+                            var colors = [null, null, null, null];
+                            for (var i = 0; i < 4; i++) {
+                                {
+                                    colors[i] = Main.convert(/* valueOf */ new String(arg.charAt(i)).toString());
+                                }
+                                ;
+                            }
+                            var allRight = parseInt(/* valueOf */ new String(arg.charAt(4)).toString());
+                            var halfRight = parseInt(/* valueOf */ new String(arg.charAt(5)).toString());
+                            list = Main.filter(list, colors, halfRight, allRight);
+                        }
+                    }
+                }
+                var result = "";
+                var c = 0;
+                for (var i = 0; i < list.length; i++) {
+                    var l = list[i];
+                    if (l == null) {
+                        continue;
+                    }
+                    result += "<br\>";
+                    c++;
+                    for (var j = 0; j < l.length; j++) {
+                        result += Main.convertCn(l[j]);
+                    }
+                }
+                result = "共计可能：" + c + result;
+                document.getElementById("answer").innerHTML = result
+            };
+            Main.convertCn = function (i) {
+                switch ((i)) {
+                    case 0:
+                        return "<span style='color: royalblue;'>蓝<span/>";
+                    case 1:
+                        return "<span style='color: firebrick;'>红<span/>";
+                    case 2:
+                        return "<span style='color: green;'>绿<span/>";
+                    case 3:
+                        return "<span style='color: moccasin;'>黄<span/>";
+                    case 4:
+                        return "<span style='color: lightpink;'>粉<span/>";
+                    case 5:
+                        return "<span style='color: floralwhite;'>白<span/>";
+                    default:
+                        return "unknown";
+                }
+            };
+            Main.convert = function (color) {
+                switch ((color)) {
+                    case "蓝":
+                        return Main.Color.BLUE;
+                    case "红":
+                        return Main.Color.RED;
+                    case "绿":
+                        return Main.Color.GREEN;
+                    case "黄":
+                        return Main.Color.YELLOW;
+                    case "粉":
+                        return Main.Color.PINK;
+                    case "白":
+                        return Main.Color.WHITE;
+                    default:
+                        return Main.Color.UNKNOWN;
+                }
+            };
+            Main.filter = function (currentList, input, colorRight, posRight) {
+                console.info(input);
+                console.info(colorRight + "   " + posRight);
+                var iterator = (function (a) {
+                    var i = 0;
+                    return {
+                        next: function () { return i < a.length ? a[i++] : null; },
+                        hasNext: function () { return i < a.length; },
+                        remove: function () { delete a[i - 1]; }
+                    };
+                })(currentList);
+                while ((iterator.hasNext())) {
+                    {
+                        var colors = iterator.next();
+                        if (colors == null) {
+                            continue;
+                        }
+                        var mColorRight = 0;
+                        var mPosRight = 0;
+                        for (var i = 0; i < colors.length; i++) {
+                            {
+                                var color = input[i];
+                                if (color == colors[i]) {
+                                    mPosRight++;
+                                    continue;
+                                }
+                                var contains = false;
+                                for (var j = 0; j < colors.length; j++) {
+                                    if (color == colors[j]) {
+                                        contains = true;
+                                        break;
+                                    }
+                                }
+                                if (contains) {
+                                    mColorRight++;
+                                }
+                            }
+                            ;
+                        }
+                        if (mColorRight !== colorRight || mPosRight !== posRight) {
+                            iterator.remove();
+                        }
+                    }
+                }
+                ;
+                return (currentList.slice(0));
+            };
+            Main.init = function () {
+                var list = ([]);
+                for (var i1 = 0; i1 < Main.COUNT; i1++) {
+                    {
+                        var c1 = Main.COLORS_$LI$()[i1];
+                        for (var i2 = 0; i2 < Main.COUNT; i2++) {
+                            {
+                                if (i2 === i1)
+                                    continue;
+                                var c2 = Main.COLORS_$LI$()[i2];
+                                for (var i3 = 0; i3 < Main.COUNT; i3++) {
+                                    {
+                                        if (i3 === i2 || i3 === i1)
+                                            continue;
+                                        var c3 = Main.COLORS_$LI$()[i3];
+                                        for (var i4 = 0; i4 < Main.COUNT; i4++) {
+                                            {
+                                                if (i4 === i3 || i4 === i2 || i4 === i1)
+                                                    continue;
+                                                var c4 = Main.COLORS_$LI$()[i4];
+                                                var colorArrayList = ([]);
+                                        /* add */ (colorArrayList.push(c1) > 0);
+                                        /* add */ (colorArrayList.push(c2) > 0);
+                                        /* add */ (colorArrayList.push(c3) > 0);
+                                        /* add */ (colorArrayList.push(c4) > 0);
+                                        /* add */ (list.push(colorArrayList) > 0);
+                                            }
+                                            ;
+                                        }
+                                    }
+                                    ;
+                                }
+                            }
+                            ;
+                        }
+                    }
+                    ;
+                }
+                return list;
+            };
+            return Main;
+        }());
+        Main.LENGTH = 4;
+        Main.COUNT = 6;
+        Main["__class"] = "Main";
+        (function (Main) {
+            var Color;
+            (function (Color) {
+                Color[Color["BLUE"] = 0] = "BLUE";
+                Color[Color["RED"] = 1] = "RED";
+                Color[Color["GREEN"] = 2] = "GREEN";
+                Color[Color["YELLOW"] = 3] = "YELLOW";
+                Color[Color["PINK"] = 4] = "PINK";
+                Color[Color["WHITE"] = 5] = "WHITE";
+                Color[Color["UNKNOWN"] = 6] = "UNKNOWN";
+            })(Color = Main.Color || (Main.Color = {}));
+            /** @ignore */
+            var Color_$WRAPPER = (function () {
+                function Color_$WRAPPER(_$ordinal, _$name) {
+                    this._$ordinal = _$ordinal;
+                    this._$name = _$name;
+                }
+                /**
+                 *
+                 * @return {string}
+                 */
+                Color_$WRAPPER.prototype.toString = function () {
+                    switch ((this._$ordinal)) {
+                        case Main.Color.BLUE:
+                            return "蓝";
+                        case Main.Color.RED:
+                            return "红";
+                        case Main.Color.GREEN:
+                            return "绿";
+                        case Main.Color.YELLOW:
+                            return "\ufffd\ufffd\ufffd";
+                        case Main.Color.PINK:
+                            return "\ufffd\ufffd\ufffd";
+                        case Main.Color.WHITE:
+                            return "\ufffd\ufffd\ufffd";
+                        default:
+                            return "unknown";
+                    }
+                };
+                Color_$WRAPPER.prototype.name = function () { return this._$name; };
+                Color_$WRAPPER.prototype.ordinal = function () { return this._$ordinal; };
+                return Color_$WRAPPER;
+            }());
+            Main.Color_$WRAPPER = Color_$WRAPPER;
+            Color["__class"] = "Main.Color";
+            Color["__interfaces"] = ["java.lang.Comparable", "java.io.Serializable"];
+            Color["_$wrappers"] = [new Color_$WRAPPER(0, "BLUE"), new Color_$WRAPPER(1, "RED"), new Color_$WRAPPER(2, "GREEN"), new Color_$WRAPPER(3, "YELLOW"), new Color_$WRAPPER(4, "PINK"), new Color_$WRAPPER(5, "WHITE"), new Color_$WRAPPER(6, "UNKNOWN")];
+        })(Main || (Main = {}));
+        Main.COLORS_$LI$();
+    </script>
+</head>
+
+<body>
+
+    <h1>SWITCH游戏《猜颜色》辅助</h1>
+
+    <p><br></p>
+    <p>第一轮&nbsp;<input type="text" id="f1"></p>
+    <p>第二轮&nbsp;<input type="text" id="f2"></p>
+    <p>第三轮&nbsp;<input type="text" id="f3"></p>
+    <p>第四轮&nbsp;<input type="text" id="f4"></p>
+    <p>第五轮&nbsp;<input type="text" id="f5"></p>
+    <p>第六轮&nbsp;<input type="text" id="f6"></p>
+    <p>第七轮&nbsp;<input type="text" id="f7"></p>
+    <p>第八轮&nbsp;<input type="text" id="f8"></p>
+
+    <button type="button" onclick="Main.main(null);">计算</button>
+
+    <p id="answer"></p>
+
+    <p>使用说明：<br>
+        游戏共有8轮，玩家选择4个颜色球放入框中，会提示全对（颜色正确位置正确）/半对（颜色正确位置错误）的个数，每一轮根据推理选择更正确的答案</p>
+    <p>辅助功能使用：<br>
+        第一轮之后将<b>四个颜色按顺序</b>填入第一轮方框中，如红黄蓝绿<br>
+        再根据半对个数和全对个数，如2个全对，1个半对，在后边加上21<br>
+        将颜色和数字拼接起来，为 <b>红黄蓝绿21</b> ，填入输入框即可<br>
+        第二轮第三轮同样的方法，没有进行的轮次可以不填写内容<br>
+        输入完毕后点击计算按钮得到所有可能结果</p>
+
+</body>
+
+</html>
